@@ -34,6 +34,7 @@ public class MyFitnessFunction extends FitnessFunction {
     // Placeholder method for calculating the average delay from the chromosome
     private double calculateAverageDelay(IChromosome chromosome) {
         // TODO: Implement the logic to calculate average delay based on the chromosome
+
         return 0; // This is just a placeholder, replace it with actual calculation
     }
 
