@@ -1,0 +1,16 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\asus\\Downloads\\jgap_3.3_full\\jgap.jar",
+        "c:\\Users\\asus\\Downloads\\jgap_3.3_full\\jgap-examples.jar",
+        "c:\\Users\\asus\\Downloads\\jgap_3.3_full\\jgap-tests.jar",
+        "c:\\Users\\asus\\Downloads\\jgap_3.3_full\\lib\\junit3.8.1.jar",
+        "c:\\Users\\asus\\Downloads\\jgap_3.3_full\\lib\\log4j.jar",
+        "c:\\Users\\asus\\Downloads\\jgap_3.3_full\\lib\\TableLayout.jar",
+        "c:\\Users\\asus\\Downloads\\jgap_3.3_full\\lib\\commons-cli-1.0.jar",
+        "c:\\Users\\asus\\Downloads\\jgap_3.3_full\\lib\\commons-codec-1.3.jar",
+        "c:\\Users\\asus\\Downloads\\jgap_3.3_full\\lib\\commons-lang-2.1.jar",
+        "c:\\Users\\asus\\Downloads\\jgap_3.3_full\\lib\\jcgrid.jar",
+        "c:\\Users\\asus\\Downloads\\jgap_3.3_full\\lib\\junit-addons-1.4.jar"
+    ]
+}
