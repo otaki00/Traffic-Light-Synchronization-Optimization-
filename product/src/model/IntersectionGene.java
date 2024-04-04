@@ -91,8 +91,13 @@ public class IntersectionGene extends BaseGene {
 
     @Override
     public int compareTo(Object o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
+        if (o instanceof IntersectionGene) {
+        IntersectionGene otherGene = (IntersectionGene) o;
+        return Integer.compare(this.cycleLength, otherGene.cycleLength);
+    } else {
+        // As per the Comparable contract, throw an exception if the object is of the wrong type
+        throw new ClassCastException("Expected IntersectionGene object");
+    }
     }
 
     @Override
