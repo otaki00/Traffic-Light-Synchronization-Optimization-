@@ -27,14 +27,21 @@ public class IntersectionGene extends BaseGene {
     public void setAllele(Object a_newValue) {
         if (a_newValue instanceof int[]) {
             int[] newValues = (int[]) a_newValue;
-            this.grTimingSet1 = newValues[0];
-            this.grTimingSet2 = newValues[1];
-            this.grTimingSet3 = newValues[2];
+            this.grTimingSet1 = validateValue(newValues[0], 10, 30); 
+            this.grTimingSet2 = validateValue(newValues[1], 10, 30);
+            this.grTimingSet3 = validateValue(newValues[2], 10, 30);
             this.cycleLength = newValues[3];
-            this.offset = newValues[4];
+            this.offset = validateValue(newValues[4], 0, 30);
         }
     }
 
+    private int validateValue(int value, int min, int max) {
+        if (value < min)
+            return min;
+        if (value > max)
+            return max;
+        return value;
+    }
     @Override
     public Object getAllele() {
         return new int[] { this.grTimingSet1, this.grTimingSet2, this.grTimingSet3, this.cycleLength, this.offset };

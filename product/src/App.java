@@ -50,9 +50,12 @@ public class App {
 
     private static void evolvePopulation(Genotype population, int numberOfGenerations) {
         for (int generation = 0; generation < numberOfGenerations; generation++) {
+            population.evolve();
 
+            // Optional: Add logic to periodically save population or output detailed stats
+            // for analysis
+            printGenerationDetails(population, generation);
             if (generation % 10 == 0 || generation == numberOfGenerations - 1) {
-                printGenerationDetails(population, generation);
             }
         }
     }
@@ -60,7 +63,7 @@ public class App {
     private static void printGenerationDetails(Genotype population, int generation) {
         IChromosome fittestChromosome = population.getFittestChromosome();
         // double totalFitness = population.getPopulation().getChromosomes().stream().mapToDouble(Gene::getFitnessValue)
-                // .sum();
+        //         .sum();
         // double averageFitness = totalFitness / population.getPopulation().size();
 
         System.out.println("Generation: " + generation);
