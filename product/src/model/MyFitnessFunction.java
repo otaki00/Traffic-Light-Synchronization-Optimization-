@@ -19,8 +19,32 @@ public class MyFitnessFunction extends FitnessFunction {
 
     @Override
     protected double evaluate(IChromosome chromosome) {
-        // You need to implement methods to calculate these values based on the
-        // chromosome
+        double penalty = 0.0;
+        final double PENALTY_AMOUNT = 10.0; // Define a fixed penalty amount for constraint violations
+
+        for (int i = 0; i < chromosome.size(); i++) {
+            int[] values = (int[]) chromosome.getGene(i).getAllele();
+
+            // Check each value for constraints and apply penalties as necessary
+            // Assuming constraints for grTimingSet1, grTimingSet2, grTimingSet3,
+            // cycleLength, and offset
+            if (values[0] < 10 || values[0] > 30)
+                penalty += PENALTY_AMOUNT; 
+            if (values[1] < 10 || values[1] > 30)
+                penalty += PENALTY_AMOUNT; 
+            if (values[2] < 10 || values[2] > 30)
+                penalty += PENALTY_AMOUNT; 
+            if (values[3] < 60 || values[3] > 120)
+                penalty += PENALTY_AMOUNT;
+            if (values[4] < 0 || values[4] > 30)
+                penalty += PENALTY_AMOUNT;
+        }
+
+        double fitness = calculateFitness(chromosome) - penalty;
+        return fitness > 0 ? fitness : 0; // Ensure fitness doesn't go negative
+    }
+
+    private double calculateFitness(IChromosome chromosome) {
         double averageDelay = this.trafficInfo.calculateAverageDelay(chromosome);
         double throughput = this.trafficInfo.calculateAverageThroughput(chromosome);
         double averageQueueLength = this.trafficInfo.calculateAverageQueueLength(chromosome);
