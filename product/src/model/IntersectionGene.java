@@ -62,39 +62,39 @@ public class IntersectionGene extends BaseGene {
         this.offset = a_numberGenerator.nextInt(31);
     }
 
-    @Override
-    public void applyMutation(int index, double a_percentage) {
-        RandomGenerator generator = getConfiguration().getRandomGenerator();
+    // @Override
+    // public void applyMutation(int index, double a_percentage) {
+    //     RandomGenerator generator = getConfiguration().getRandomGenerator();
 
-        // Decide which parameter to mutate based on the 'index'.
-        // This is a simple round-robin approach.
-        switch (index % 5) { // Assuming 5 parameters
-            case 0: // Mutate GR timing for set1
-                this.grTimingSet1 = mutateValue(this.grTimingSet1, a_percentage, generator);
-                break;
-            case 1: // Mutate GR timing for set2
-                this.grTimingSet2 = mutateValue(this.grTimingSet2, a_percentage, generator);
-                break;
-            case 2: // Mutate GR timing for set3
-                this.grTimingSet3 = mutateValue(this.grTimingSet3, a_percentage, generator);
-                break;
-            case 3: // Mutate cycle length
-                this.cycleLength = mutateValue(this.cycleLength, a_percentage, generator);
-                break;
-            case 4: // Mutate offset
-                this.offset = mutateValue(this.offset, a_percentage, generator);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected index for mutation.");
-        }
-    }
+    //     // Decide which parameter to mutate based on the 'index'.
+    //     // This is a simple round-robin approach.
+    //     switch (index % 5) { // Assuming 5 parameters
+    //         case 0: // Mutate GR timing for set1
+    //             this.grTimingSet1 = mutateValue(this.grTimingSet1, a_percentage, generator);
+    //             break;
+    //         case 1: // Mutate GR timing for set2
+    //             this.grTimingSet2 = mutateValue(this.grTimingSet2, a_percentage, generator);
+    //             break;
+    //         case 2: // Mutate GR timing for set3
+    //             this.grTimingSet3 = mutateValue(this.grTimingSet3, a_percentage, generator);
+    //             break;
+    //         case 3: // Mutate cycle length
+    //             this.cycleLength = mutateValue(this.cycleLength, a_percentage, generator);
+    //             break;
+    //         case 4: // Mutate offset
+    //             this.offset = mutateValue(this.offset, a_percentage, generator);
+    //             break;
+    //         default:
+    //             throw new IllegalStateException("Unexpected index for mutation.");
+    //     }
+    // }
 
-    private int mutateValue(int currentValue, double a_percentage, RandomGenerator generator) {
-        // Calculate the mutation amount
-        int mutationAmount = (int) (currentValue * a_percentage);
-        // Apply mutation in either direction, add or subtract the mutation amount
-        return currentValue + (generator.nextBoolean() ? mutationAmount : -mutationAmount);
-    }
+    // private int mutateValue(int currentValue, double a_percentage, RandomGenerator generator) {
+    //     // Calculate the mutation amount
+    //     int mutationAmount = (int) (currentValue * a_percentage);
+    //     // Apply mutation in either direction, add or subtract the mutation amount
+    //     return currentValue + (generator.nextBoolean() ? mutationAmount : -mutationAmount);
+    // }
 
     @Override
     public int compareTo(Object o) {
@@ -124,6 +124,39 @@ public class IntersectionGene extends BaseGene {
     protected Gene newGeneInternal() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'newGeneInternal'");
+    }
+
+    @Override
+    public void applyMutation(int index, double a_percentage) {
+        RandomGenerator generator = getConfiguration().getRandomGenerator();
+        // Mutate based on index. Ensure mutation respects the gene's constraints.
+        // This switch-case can be refined as shown previously.
+        switch (index % 5) { // Assuming 5 parameters
+            case 0: // Mutate GR timing for set1
+                this.grTimingSet1 = mutateValue(this.grTimingSet1, a_percentage, generator, 10, 30);
+                break;
+            case 1:
+                this.grTimingSet2 = mutateValue(this.grTimingSet2, a_percentage, generator, 10, 30);
+                break;
+            case 2:
+                this.grTimingSet3 = mutateValue(this.grTimingSet3, a_percentage, generator, 10, 30);
+                break;
+            case 3:
+                this.cycleLength = mutateValue(this.cycleLength, a_percentage, generator, 60, 120);
+                break;
+            case 4:
+                this.offset = mutateValue(this.offset, a_percentage, generator, 0, 30);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected index for mutation.");
+        }
+    }
+
+    private int mutateValue(int currentValue, double a_percentage, RandomGenerator generator, int min, int max) {
+        int mutationAmount = (int) (currentValue * a_percentage);
+        int newValue = currentValue + (generator.nextBoolean() ? mutationAmount : -mutationAmount);
+        // Ensure the new value does not exceed constraints
+        return Math.max(min, Math.min(max, newValue));
     }
 
 }

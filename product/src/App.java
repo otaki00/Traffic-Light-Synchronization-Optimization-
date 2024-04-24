@@ -4,6 +4,7 @@ import org.jgap.impl.*;
 
 import model.IntersectionGene;
 import model.MyFitnessFunction;
+import model.custom.CustomMutationOperator;
 
 public class App {
     public static void main(String[] args) {
@@ -33,16 +34,21 @@ public class App {
             CrossoverOperator crossoverOperator = new CrossoverOperator(conf, 85);
             conf.addGeneticOperator(crossoverOperator);
 
-            MutationOperator mutationOperator = new MutationOperator(conf, 1);
+            int mutationRate = 1;
+            MutationOperator mutationOperator = new CustomMutationOperator(conf, mutationRate);
             conf.addGeneticOperator(mutationOperator);
 
             // Initialize the genetic algorithm and evolve the population
             Genotype population = Genotype.randomInitialGenotype(conf);
-            evolvePopulation(population, 100); // Refactor evolution logic into a separate method for clarity
+            evolvePopulation(population, 500); // Refactor evolution logic into a separate method for clarity
 
             // Retrieve and display the best solution
             IChromosome bestSolution = population.getFittestChromosome();
-            System.out.println("Best solution: " + bestSolution.toString());
+            for (int i = 0; i < bestSolution.size(); i++) {
+                int[] geneValues = (int[]) bestSolution.getGene(i).getAllele();
+                System.out.println("Best Chromosome: " + Arrays.toString(geneValues));
+            }
+            
         } catch (InvalidConfigurationException e) {
             e.printStackTrace();
         }
