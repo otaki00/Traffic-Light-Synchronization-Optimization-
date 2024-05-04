@@ -32,7 +32,7 @@ public class App {
             conf.setSampleChromosome(sampleChromosome);
 
             // Setting up the population size
-            conf.setPopulationSize(75);
+            conf.setPopulationSize(100);
 
             // Adjust crossover and mutation rates as needed
             CrossoverOperator crossoverOperator = new CrossoverOperator(conf, 85);
