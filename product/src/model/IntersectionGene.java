@@ -3,12 +3,18 @@ package model;
 import org.jgap.*;
 import org.jgap.impl.*;
 
+
+
+
 public class IntersectionGene extends BaseGene {
     private int grTimingSet1;
     private int grTimingSet2;
     private int grTimingSet3;
     private int cycleLength;
     private int offset;
+
+    private final int YALLOW_TIME = 6; 
+    private final int LEAST_RED_TIME = 10;
 
     public IntersectionGene(Configuration a_conf) throws InvalidConfigurationException {
         super(a_conf);
@@ -58,7 +64,8 @@ public class IntersectionGene extends BaseGene {
         this.grTimingSet1 = 10 + a_numberGenerator.nextInt(21); // Range [10,30]
         this.grTimingSet2 = 10 + a_numberGenerator.nextInt(21); // Range [10,30]
         this.grTimingSet3 = 10 + a_numberGenerator.nextInt(21); // Range [10,30]
-        this.cycleLength = 60 + a_numberGenerator.nextInt(61); // Range [60,120]
+        int sumOfGreenAndYellowAndRed = this.grTimingSet1 + this.grTimingSet2 + this.grTimingSet3 + YALLOW_TIME;
+        this.cycleLength = sumOfGreenAndYellowAndRed;
         this.offset = a_numberGenerator.nextInt(31);
     }
 
