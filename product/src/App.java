@@ -1,18 +1,22 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import org.jgap.*;
 import org.jgap.impl.*;
 
 import model.IntersectionGene;
 import model.MyFitnessFunction;
+import model.PopulationOperations;
 import model.custom.CustomMutationOperator;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try {
             Configuration conf = new DefaultConfiguration();
 
             // Set the fitness function with proper weighting
-            FitnessFunction myFitnessFunction = new MyFitnessFunction(0.2, 0.1, 0.1);
+            // the sum of Ws must be 100
+            FitnessFunction myFitnessFunction = new MyFitnessFunction(0.5, 0.3, 0.2);
             conf.setFitnessFunction(myFitnessFunction);
 
             // Correctly initialize and set up the sample chromosome
@@ -28,19 +32,18 @@ public class App {
             conf.setSampleChromosome(sampleChromosome);
 
             // Setting up the population size
-            conf.setPopulationSize(100);
+            conf.setPopulationSize(75);
 
             // Adjust crossover and mutation rates as needed
             CrossoverOperator crossoverOperator = new CrossoverOperator(conf, 85);
             conf.addGeneticOperator(crossoverOperator);
 
-            int mutationRate = 1;
-            MutationOperator mutationOperator = new CustomMutationOperator(conf, mutationRate);
+            MutationOperator mutationOperator = new CustomMutationOperator(conf);
             conf.addGeneticOperator(mutationOperator);
 
             // Initialize the genetic algorithm and evolve the population
             Genotype population = Genotype.randomInitialGenotype(conf);
-            evolvePopulation(population, 500); // Refactor evolution logic into a separate method for clarity
+            evolvePopulation(population, 100);
 
             // Retrieve and display the best solution
             IChromosome bestSolution = population.getFittestChromosome();
@@ -54,16 +57,35 @@ public class App {
         }
     }
 
-    private static void evolvePopulation(Genotype population, int numberOfGenerations) {
+    private static void evolvePopulation(Genotype population, int numberOfGenerations) throws IOException {
+
+        // add logic for save the outcomes data from each generation, in extarnal file, to apply tests
+        FileWriter writer = new FileWriter("ga_performance.csv", false); // Append mode
+        writer.write("Generation,BestFitness,AverageFitness,WorstFitness\n"); 
+
+
         for (int generation = 0; generation < numberOfGenerations; generation++) {
             population.evolve();
+
+
 
             // Optional: Add logic to periodically save population or output detailed stats
             // for analysis
             printGenerationDetails(population, generation);
-            if (generation % 10 == 0 || generation == numberOfGenerations - 1) {
-            }
+            
+            
+            IChromosome fittestChromosome = population.getFittestChromosome();
+            double bestFitness = fittestChromosome.getFitnessValue();
+            double averageFitness = PopulationOperations.calculateAverageFitness(population.getPopulation());
+            double worstFitness = PopulationOperations.calculateWorstFitness(population.getPopulation());
+
+            // Log the data to the CSV file
+            writer.write(generation + "," + bestFitness + "," + averageFitness + "," + worstFitness + "\n");
+
+
         }
+
+        writer.close();
     }
 
     private static void printGenerationDetails(Genotype population, int generation) {

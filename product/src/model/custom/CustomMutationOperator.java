@@ -42,7 +42,7 @@ public class CustomMutationOperator extends MutationOperator{
                 Gene gene = copyOfChromosome.getGene(j);
                 if (gene instanceof IntersectionGene) {
                     // Apply custom mutation logic
-                    double mutationRate = 0.1; // Example mutation rate
+                    double mutationRate = 0.5; 
                     if (generator.nextDouble() <= mutationRate) {
                         ((IntersectionGene) gene).applyMutation(j, mutationRate);
                     }

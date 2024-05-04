@@ -55,7 +55,7 @@ public class MyFitnessFunction extends FitnessFunction {
         }
 
         // Calculate the fitness value according to the provided formula
-        double fitness = w1 * (1 / averageDelay) + w2 * throughput - w3 * averageQueueLength;
+        double fitness = (w1 * (1 / averageDelay)) + (w2 * throughput) - (w3 * averageQueueLength);
 
         return fitness;
     }
