@@ -1,4 +1,4 @@
-package model;
+package model.Fitnessfunction;
 
 import org.jgap.Population;
 

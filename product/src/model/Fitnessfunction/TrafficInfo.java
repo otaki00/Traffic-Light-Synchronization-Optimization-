@@ -1,4 +1,4 @@
-package model;
+package model.Fitnessfunction;
 
 import org.jgap.IChromosome;
 
@@ -21,7 +21,6 @@ public class TrafficInfo {
             int[] signalTimings = (int[]) chromosome.getGene(i).getAllele();
             int greenTimeTotal = signalTimings[0] + signalTimings[1] + signalTimings[2];
             int cycleTime = signalTimings[3];
-            // int offset = signalTimings[4];
 
             // Use Webster's formula as a basis for delay calculation
             double effectiveGreenTime = greenTimeTotal - YELLOW_AND_ALL_RED_TIME;

@@ -1,4 +1,4 @@
-package model.custom;
+package model.Gene.custom;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.jgap.Population;
 import org.jgap.RandomGenerator;
 import org.jgap.impl.MutationOperator;
 
-import model.IntersectionGene;
+import model.Gene.IntersectionGene;
 
 public class CustomMutationOperator extends MutationOperator{
 
@@ -42,7 +42,7 @@ public class CustomMutationOperator extends MutationOperator{
                 Gene gene = copyOfChromosome.getGene(j);
                 if (gene instanceof IntersectionGene) {
                     // Apply custom mutation logic
-                    double mutationRate = 1; 
+                    double mutationRate = 0.5;
                     if (generator.nextDouble() <= mutationRate) {
                         ((IntersectionGene) gene).applyMutation(j, mutationRate);
                     }
