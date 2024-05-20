@@ -1,59 +1,33 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.CyclicBarrier;
+
 import org.jgap.*;
 import org.jgap.impl.*;
 
-import model.IntersectionGene;
-import model.MyFitnessFunction;
-import model.PopulationOperations;
-import model.custom.CustomMutationOperator;
+import model.Fitnessfunction.MyFitnessFunction;
+import model.Fitnessfunction.PopulationOperations;
+import model.GA.GeneticAlgorithm;
+import model.Gene.IntersectionGene;
+import model.Gene.custom.CustomMutationOperator;
+import model.Island.Island;
+import model.Island.IslandManager;
 
 public class App {
     public static void main(String[] args) throws IOException {
         try {
-            Configuration conf = new DefaultConfiguration();
+            int numberOfIslands = 4;
+            IslandManager manager = new IslandManager(numberOfIslands);
+            manager.initializeIslands();
 
-            // Set the fitness function with proper weighting
-            // the sum of Ws must be 100
-            FitnessFunction myFitnessFunction = new MyFitnessFunction(0.5, 0.3, 0.2);
-            conf.setFitnessFunction(myFitnessFunction);
+            CyclicBarrier barrier = new CyclicBarrier(numberOfIslands, () -> System.out.println("All islands have reached the exchange point."));
+            Island.setBarrier(barrier);
 
-            // Correctly initialize and set up the sample chromosome
-            Gene[] intersectionGenes = new Gene[5]; // Use Gene[] to align with JGAP's expectations
-
-            for (int i = 0; i < intersectionGenes.length; i++) {
-                intersectionGenes[i] = new IntersectionGene(conf);
-                // It's assumed your IntersectionGene properly implements the random value
-                // setting in its constructor or elsewhere
-            }
-
-            IChromosome sampleChromosome = new Chromosome(conf, intersectionGenes);
-            conf.setSampleChromosome(sampleChromosome);
-
-            // Setting up the population size
-            conf.setPopulationSize(100);
-
-            // Adjust crossover and mutation rates as needed
-            CrossoverOperator crossoverOperator = new CrossoverOperator(conf, 85);
-            conf.addGeneticOperator(crossoverOperator);
-
-            MutationOperator mutationOperator = new CustomMutationOperator(conf);
-            conf.addGeneticOperator(mutationOperator);
-
-            // Initialize the genetic algorithm and evolve the population
-            Genotype population = Genotype.randomInitialGenotype(conf);
-            evolvePopulation(population, 100);
-
-            // Retrieve and display the best solution
-            IChromosome bestSolution = population.getFittestChromosome();
-            for (int i = 0; i < bestSolution.size(); i++) {
-                int[] geneValues = (int[]) bestSolution.getGene(i).getAllele();
-                System.out.println("Best Chromosome: " + Arrays.toString(geneValues));
-            }
-            
+            manager.startIslands();
+            manager.joinIslands();
         } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
+            System.err.println("Configuration error: " + e.getMessage());
         }
     }
 

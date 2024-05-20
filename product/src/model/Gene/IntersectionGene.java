@@ -1,10 +1,6 @@
-package model;
+package model.Gene;
 
 import org.jgap.*;
-import org.jgap.impl.*;
-
-
-
 
 public class IntersectionGene extends BaseGene {
     private int grTimingSet1;
@@ -13,8 +9,8 @@ public class IntersectionGene extends BaseGene {
     private int cycleLength;
     private int offset;
 
-    private final int YALLOW_TIME = 6; 
-    private final int LEAST_RED_TIME = 10;
+    private final int YALLOW_TIME = 4; 
+    private final int LEAST_RED_TIME = 15;
 
     public IntersectionGene(Configuration a_conf) throws InvalidConfigurationException {
         super(a_conf);
@@ -64,44 +60,11 @@ public class IntersectionGene extends BaseGene {
         this.grTimingSet1 = 10 + a_numberGenerator.nextInt(21); // Range [10,30]
         this.grTimingSet2 = 10 + a_numberGenerator.nextInt(21); // Range [10,30]
         this.grTimingSet3 = 10 + a_numberGenerator.nextInt(21); // Range [10,30]
-        int sumOfGreenAndYellowAndRed = this.grTimingSet1 + this.grTimingSet2 + this.grTimingSet3 + YALLOW_TIME;
-        this.cycleLength = sumOfGreenAndYellowAndRed;
+        int sumOfGreenAndYellowAndRed = this.grTimingSet1 + this.grTimingSet2 + this.grTimingSet3 + YALLOW_TIME + LEAST_RED_TIME;
+        int randomCycleLength = 60 + a_numberGenerator.nextInt(61); // Range [60,120]
+        this.cycleLength = randomCycleLength > sumOfGreenAndYellowAndRed ? randomCycleLength : sumOfGreenAndYellowAndRed;
         this.offset = a_numberGenerator.nextInt(31);
     }
-
-    // @Override
-    // public void applyMutation(int index, double a_percentage) {
-    //     RandomGenerator generator = getConfiguration().getRandomGenerator();
-
-    //     // Decide which parameter to mutate based on the 'index'.
-    //     // This is a simple round-robin approach.
-    //     switch (index % 5) { // Assuming 5 parameters
-    //         case 0: // Mutate GR timing for set1
-    //             this.grTimingSet1 = mutateValue(this.grTimingSet1, a_percentage, generator);
-    //             break;
-    //         case 1: // Mutate GR timing for set2
-    //             this.grTimingSet2 = mutateValue(this.grTimingSet2, a_percentage, generator);
-    //             break;
-    //         case 2: // Mutate GR timing for set3
-    //             this.grTimingSet3 = mutateValue(this.grTimingSet3, a_percentage, generator);
-    //             break;
-    //         case 3: // Mutate cycle length
-    //             this.cycleLength = mutateValue(this.cycleLength, a_percentage, generator);
-    //             break;
-    //         case 4: // Mutate offset
-    //             this.offset = mutateValue(this.offset, a_percentage, generator);
-    //             break;
-    //         default:
-    //             throw new IllegalStateException("Unexpected index for mutation.");
-    //     }
-    // }
-
-    // private int mutateValue(int currentValue, double a_percentage, RandomGenerator generator) {
-    //     // Calculate the mutation amount
-    //     int mutationAmount = (int) (currentValue * a_percentage);
-    //     // Apply mutation in either direction, add or subtract the mutation amount
-    //     return currentValue + (generator.nextBoolean() ? mutationAmount : -mutationAmount);
-    // }
 
     @Override
     public int compareTo(Object o) {
