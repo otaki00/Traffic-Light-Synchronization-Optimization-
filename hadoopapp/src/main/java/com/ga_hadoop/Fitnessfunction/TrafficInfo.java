@@ -1,16 +1,12 @@
-package model.Fitnessfunction;
-
-import java.io.Serializable;
+package com.ga_hadoop.Fitnessfunction;
 
 import org.jgap.IChromosome;
 
-public class TrafficInfo implements Serializable {
-    private static final long serialVersionUID = 1L;
-    
-    private static final double SATURATION_FLOW_RATE = 7200;
+public class TrafficInfo {
+    // this constant is about the saturation flow rate. which is the maximum number of vehicles that can pass through a signalized intersection per hour, under ideal conditions, so the value is based on average values
+    private static final double SATURATION_FLOW_RATE = 1900;
     // this constant is about the arrival rate of vehicles to the intersection, so the value is based on average values
     private static final double ARRIVAL_RATE = 600;
-    
     // just an expicted value for red light time and yellow light time, to gain more
     // accurate results we need to get these values from the real world
     private static final double YELLOW_AND_ALL_RED_TIME = 6;
@@ -34,7 +30,7 @@ public class TrafficInfo implements Serializable {
             double redTime = cycleTime - greenTimeTotal;
             // this formula is based on Traffic Flow 
             // Delay = 0.5 * (redTime)^2 / (cycleTime - effectiveGreenTime)
-            double delay = (0.5 * redTime * redTime) / (cycleTime - effectiveGreenTime); 
+            double delay = (0.5 * redTime * redTime) / (cycleTime - effectiveGreenTime); // Simplified version
 
             totalDelay += delay;
         }

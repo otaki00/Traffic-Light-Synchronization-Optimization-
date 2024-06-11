@@ -15,13 +15,14 @@ import model.Island.Island;
 import model.Island.IslandManager;
 
 public class App {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         try {
             int numberOfIslands = 4;
             IslandManager manager = new IslandManager(numberOfIslands);
             manager.initializeIslands();
 
-            CyclicBarrier barrier = new CyclicBarrier(numberOfIslands, () -> System.out.println("All islands have reached the exchange point."));
+            CyclicBarrier barrier = new CyclicBarrier(numberOfIslands,
+                    () -> System.out.println("All islands have reached the exchange point."));
             Island.setBarrier(barrier);
 
             manager.startIslands();
