@@ -28,7 +28,7 @@ public class IslandManager {
 
     public void initializeIslands() throws InvalidConfigurationException {
         for (int i = 0; i < numberOfIslands; i++) {
-            Configuration.reset(); 
+            Configuration.reset();
             Configuration conf = new DefaultConfiguration();
             FitnessFunction myFitnessFunction = new MyFitnessFunction(0.5, 0.3, 0.2);
             conf.setFitnessFunction(myFitnessFunction);
@@ -50,7 +50,8 @@ public class IslandManager {
 
             GeneticAlgorithm ga = new GeneticAlgorithm(conf);
             String logFilePath = "data/island_" + i + ".csv";
-            Island island = new Island(ga, i, logFilePath);
+            int port = 5000 + i; // Example port assignment, adjust as needed
+            Island island = new Island(ga, i, logFilePath, port);
             islands.add(island);
             Thread thread = new Thread(island);
             islandThreads.add(thread);

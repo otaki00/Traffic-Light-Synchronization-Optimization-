@@ -1,4 +1,6 @@
-package model.GA;
+package com.ga_hadoop.GA;
+
+
 
 import java.io.FileWriter;
 import java.io.IOException;
