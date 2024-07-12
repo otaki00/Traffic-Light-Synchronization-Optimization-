@@ -66,6 +66,11 @@ public class GeneticAlgorithm {
 
     public void integrateNewcomer(IChromosome newcomer) {
         Population pop = population.getPopulation();
+        // Ensure population size does not exceed the configured size
+        if(pop.size() < configuration.getPopulationSize()){
+            pop.addChromosome(newcomer);
+            return;
+        }
         // Assuming you want to replace the worst individual
         int worstIndex = findWorstChromosomeIndex(pop);
         pop.setChromosome(worstIndex, newcomer);
@@ -89,6 +94,11 @@ public class GeneticAlgorithm {
     }
 
     public Object getPopulation() {
+        return population.getPopulation();
+    }
+
+    // get population object
+    public Population getPopulationObject() {
         return population.getPopulation();
     }
 }

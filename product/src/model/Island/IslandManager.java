@@ -49,8 +49,8 @@ public class IslandManager {
             conf.addGeneticOperator(mutationOperator);
 
             GeneticAlgorithm ga = new GeneticAlgorithm(conf);
-            String logFilePath = "data/island_" + i + ".csv";
-            int port = 5000 + i; // Example port assignment, adjust as needed
+            String logFilePath = "data/islands/island_" + i + ".csv";
+            int port = 5100 + i; // Example port assignment, adjust as needed
             Island island = new Island(ga, i, logFilePath, port);
             islands.add(island);
             Thread thread = new Thread(island);
