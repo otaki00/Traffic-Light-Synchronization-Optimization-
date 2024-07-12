@@ -47,7 +47,8 @@ public class Island implements Runnable {
                             + geneValues[2] + "," + geneValues[3] + "," + geneValues[4] + "\n");
                 }
 
-                if (i % 10 == 0) {
+                int migrationRate = 3;
+                if (i % migrationRate == 0) {
                     exchangeIndividuals();
                 }
 

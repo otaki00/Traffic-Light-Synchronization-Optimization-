@@ -33,7 +33,7 @@ public class MyFitnessFunction extends FitnessFunction {
             averageDelay = 1;
         }
 
-        // Calculate the fitness value according to the provided formula
+        // Apply logarithmic transformation to stabilize the impact of queue length
         double fitness = (w1 * (1 / averageDelay)) + (w2 * throughput) - (w3 * averageQueueLength);
 
         return fitness;

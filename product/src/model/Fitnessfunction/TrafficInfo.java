@@ -71,23 +71,21 @@ public class TrafficInfo implements Serializable {
     public double calculateAverageQueueLength(IChromosome chromosome) {
         double totalQueueLength = 0;
 
-        // extract the values from the chromosome
+        // Extract the values from the chromosome
         for (int i = 0; i < chromosome.size(); i++) {
             int[] signalTimings = (int[]) chromosome.getGene(i).getAllele();
             int greenTimeTotal = signalTimings[0] + signalTimings[1] + signalTimings[2];
             int cycleTime = signalTimings[3];
 
-            // this is part of the formula to calculate the queue length
-            // redRatio = 1 - (greenTimeTotal / cycleTime)
+            // Calculate the queue length
             double redRatio = 1 - (double) greenTimeTotal / cycleTime;
-            // this formula is based on Traffic Flow
-            // Queue Length = Arrival Rate * redRatio
-            double queueLength = ARRIVAL_RATE * redRatio; 
+            double queueLength = ARRIVAL_RATE * redRatio;
 
             totalQueueLength += queueLength;
         }
 
-        return totalQueueLength / chromosome.size(); 
+        // Ensure stability by adding a small constant to avoid division by zero
+        return totalQueueLength / (chromosome.size() + 1e-6);
     }
 
 }
